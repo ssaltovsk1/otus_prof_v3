@@ -12,14 +12,19 @@ public class NotationStarter {
 
     public void initializeMethodsWithNotations(Class className) throws InvocationTargetException, IllegalAccessException, InstantiationException {
 
-        addAfterAnnotationToList(className);
+        addBeforeAnnotationToList(className);
         addTestAnnotationToList(className);
         addAfterAnnotationToList(className);
 
         for (Method method : testAnnotationMethodsList) {
             Object clazz = className.newInstance();
-
-            method.invoke(clazz);
+                for (Method methodBefore : beforeAnnotationMethodsList) {
+                    methodBefore.invoke(clazz);
+                }
+                    method.invoke(clazz);
+                for (Method methodAfter : afterAnnotationMethodsList) {
+                    methodAfter.invoke(clazz);
+                }
         }
     }
 
